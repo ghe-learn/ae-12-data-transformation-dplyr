@@ -1,11 +1,111 @@
 ---
-title: "Untitled"
+title: ""
 format: html
 editor: source
+editor_options: 
+  chunk_output_type: console
 ---
 
+# Notes
 
-# Reproduce these plots
+## Task descriptions and starter code
+
+You will notice that the descriptions of tasks are getting shorter with less detail provided. This is the case for all functions you have previously practised either in your homework or in live coding exercises in class. Tasks that are **fill in the blanks** exercises will also decrease. These task descriptions are closer to how tasks will be described in the final exam.
+
+## Final exam
+
+For most tasks in the final exam, exercises won't have starter code or be **fill in the blanks** exercises. Studying for the exam means practising writing code. You currently have three options to do that:
+
+- Programming exercises like this
+- The R4DS book and your notebook repository
+- Your research project
+
+You must write as much code independently as you can. While we realise that homework assignments can be copied from other classmates, it is to your disadvantage if you do so. You will not have an opportunity to practice writing code independently, which you will need to be able to do for the final exam.
 
 
+# Task 0: Load R packages
 
+1. Load the `dplyr`, `readr`, and `ggplot2` R Packages.
+
+```{r}
+library(dplyr)
+library(readr)
+library(ggplot2)
+```
+
+# Task 1: Data import
+
+1. Import the 'country_level_data_0.csv' by assigning it to an object name `global_waste_data`
+
+```{r}
+global_waste_data <- read_csv("data/raw_data/country_level_data_0.csv")
+```
+
+
+# Task 2: Data tidying
+
+**select**
+
+1. Start with the `global_waste_data` object and use the select function to create a dataframe with the following variables:
+
+- `country_name`
+- `income_id`
+- all variables starting with "composition"
+
+2. Rename all columns starting with "composition" to shorten them to the waste category only (e.g. rename `composition_food_organic_waste_percent` to `food_organic`)
+
+3. Store the dataframe as a new object in your environment with the name `composition`
+
+```{r}
+composition <- global_waste_data %>% 
+  select(country_name, income_id, starts_with("composition")) %>% 
+  rename(food_organic = composition_food_organic_waste_percent,
+         glass = composition_glass_percent,
+         metal = composition_metal_percent,
+         other = composition_other_percent,
+         paper_cardboard = composition_paper_cardboard_percent,
+         plastic = composition_plastic_percent,
+         rubber_leather = composition_rubber_leather_percent,
+         wood = composition_wood_percent,
+         yard_garden_green = composition_yard_garden_green_waste_percent) 
+
+
+composition %>%   
+  group_by(income_id) %>% 
+  summarise(mean_organic = mean(food_organic, na.rm = TRUE))
+
+composition %>% 
+  tidyr::pivot_longer(cols = !country_name:income_id,
+                      names_to = "waste_category",
+                      values_to = "percent") %>% 
+  group_by(country_name) %>% 
+  summarise(sum_percent = sum(percent, na.rm = TRUE)) 
+
+composition %>% 
+  tidyr::pivot_longer(cols = !country_name:income_id,
+                      names_to = "waste_category",
+                      values_to = "percent") %>% 
+  group_by(income_id, waste_category)  %>% 
+  filter(!is.na(percent)) %>% 
+  summarise(count = n(),
+            mean_percent = mean(percent, na.rm = TRUE),
+            median_percent = median(percent),
+            sd_percent = sd(percent, na.rm = TRUE)) 
+```
+
+
+```{r}
+
+composition %>% 
+  group_by(income_id) %>% 
+  summarise(organic = mean(composition_food_organic_waste_percent, na.rm = TRUE))
+```
+
+
+# Task 3: Data transformation
+
+# Task 4: Data visualisation
+
+# Task 5: Data communication
+
+# Task 6: Complete assignment

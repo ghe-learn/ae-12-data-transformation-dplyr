@@ -9,47 +9,37 @@ editor_options:
 ```{r}
 
 library(dplyr)
-library(tidyr)
-library(readr)
 library(skimr)
-library(stringr)
 library(ggplot2)
+
 ```
 
+# Data 
 
-# Data import
+Starwars
 
-
-
-# Data tidying
-
-
-https://speciationgenomics.github.io/data_visualisation_handling/
+# Explore
 
 ```{r}
 
-starwars %>% 
-  select(name, homeworld)
-
-starwars %>% 
-  select(-name)
-
-starwars %>% 
-  select(name:homeworld)
-
-starwars %>% 
-  select(name:mass, homeworld)
-
-starwars %>% 
-  select(name, ends_with("color"))
-
-starwars %>% 
-  select(name, starts_with("s")) 
-
-
+glimpse(starwars)
+starwars
 
 ```
 
+# Data wrangling with dplyr
+
+The `dplyr` R Paclage aims to provide a function for each basic verb of data manipulation. These verbs can be organised into three categories based on the component of the dataset that they work with:
+
+- Rows
+- Columns
+- Groups of rows
+
+## Rows
+
+### dplyr::filter()
+
+The function `filter()` chooses rows based on column values.
 
 ```{r}
 
@@ -62,72 +52,224 @@ starwars %>%
 starwars %>% 
   filter(species == "Human" |  homeworld == "Tatooine")
 
+starwars %>% 
+  filter(skin_color == "light" & eye_color == "brown")
+
+starwars %>% 
+  filter(homeworld != "Naboo") 
+
 ```
 
+### dplyr::arrange()
+
+The function `arrange()` changes the order of the rows.
 
 ```{r}
+
+starwars %>% 
+  arrange(mass)
 
 starwars %>% 
   arrange(desc(mass))
 
+starwars %>% 
+  arrange(height, mass)
+
 ```
 
+### dplyr::slice()
+
+The function `slice()` chooses rows based on location.
 
 ```{r}
 
 starwars %>% 
-  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
-  select(name:mass, bmi)
+  slice(1)
 
-```
+starwars %>% 
+  slice(-1)
 
+starwars %>% 
+  slice(5:10)
 
-```{r}
+starwars %>% 
+  slice_sample(n = 10)
 
 starwars %>%
-  group_by(species) %>%
-  summarise(
-    n = n(),
-    mass = mean(mass, na.rm = TRUE)
+  slice_max(height, n = 5)
+
+starwars %>% 
+  slice_min(mass, n = 3)
+
+```
+
+## Columns
+
+### dplyr::select()
+
+The function `select()` picks variables based on their names.
+
+```{r}
+
+# Select columns by name
+starwars %>% 
+  select(name, hair_color, skin_color, eye_color)
+
+# Select all columns between hair_color and eye_color (inclusive)
+starwars %>% 
+  select(name, hair_color:eye_color)
+
+# Select all columns except those from hair_color to eye_color (inclusive)
+starwars %>% 
+  select(name, !(hair_color:eye_color))
+
+# Select all columns ending with color
+starwars %>% 
+  select(name, ends_with("color"))
+
+starwars <- starwars %>% 
+  select(-films, -vehicles, -starships)
+
+starwars %>% 
+  select(!(films:starships))
+
+
+```
+
+### dplyr::rename()
+
+The function `rename()` changes the name of columns.
+
+```{r}
+
+starwars %>% 
+  rename(home_world = homeworld) %>% 
+  rename(full_name = name)
+
+```
+
+### dplyr::relocate()
+
+The function `relocate()` changes the order of the columns.
+
+```{r}
+
+starwars %>% 
+  relocate(species)
+
+starwars %>% 
+  relocate(species, .after = name)
+
+starwars %>% 
+  relocate(species, .before = mass)
+
+starwars %>% 
+  relocate(gender:species, .after = mass)
+
+```
+
+### dplyr::mutate()
+
+The function `mutate()` changes the values of columns and creates new columns.
+
+```{r}
+starwars_small %>% 
+  mutate(height_m = height / 100)
+
+starwars
+
+starwars %>% 
+  mutate(height_m = height / 100) %>% 
+  relocate(height_m, .after = height)
+
+starwars %>%
+  mutate(
+    height_m = height / 100,
+    BMI = mass / (height_m^2)
   ) %>%
-  filter(n > 1)
+  relocate(height_m:BMI, .after = mass)
+
 
 ```
+
+### dplyr::case_when()
 
 ```{r}
 
+starwars_height_cat <- starwars %>% 
+  mutate(height_category = case_when(
+    height >= 190 ~ "tall",
+    height < 190 & height >= 160 ~ "medium",
+    height < 160 ~ "short"
+  )) %>% 
+  relocate(height_category, .after = height) 
+
+## most likely remove
+
+starwars_height_cat <- starwars %>% 
+  mutate(height_category = case_when(
+    height >= 190 ~ "tall",
+    height < 190 & height >= 160 ~ "medium",
+    height < 160 ~ "short"
+  )) %>% 
+  filter(!is.na(height_category)) %>% 
+  filter(!is.na(sex)) %>% 
+  relocate(height_category, .after = height) 
+
+ggplot(data = starwars_height_cat,
+       mapping = aes(x = height_category, fill = sex)) +
+  geom_bar(position = position_dodge(preserve = "single")) +
+  facet_wrap(~gender)
+
 ```
 
+## Groups of rows
 
-
+### dplyr::summarise()
 
 ```{r}
-starwars %>% group_by(species) %>% tally()
 
-starwars %>% count(species)
+starwars %>% 
+  summarise()
+
+starwars %>% 
+  summarise(height = mean(height))
+
+starwars %>% 
+  summarise(height = mean(height, na.rm = TRUE))
+
+starwars %>% 
+  summarise(height = mean(height, na.rm = TRUE),
+            count = n())
+
+starwars %>% 
+  filter(!is.na(height)) %>% 
+  summarise(height = mean(height),
+            count = n())
+
+
+starwars_height_cat %>% 
+  group_by(height_category) %>% 
+  summarise(
+    count = n()
+  )
+
+starwars_height_cat %>% 
+  count(height_category)
+
+starwars_height_cat %>% 
+  tidyr::drop_na(height_category, sex) %>% 
+  count(height_category, sex)
+
+starwars %>% 
+  tidyr::drop_na(height, sex) %>% 
+  group_by(sex) %>% 
+  summarise(count = n(),
+            mean_height = mean(height),
+            sd_height = sd(height),
+            min_height = min(height),
+            median_height = median(height),
+            max_height = max(height))
 
 ```
-
-
-
-# Data transformation
-
-
-
-# Data visualisation
-
-# Data communication
-
-# Codebook
-
-```{r}
-
-data_city
-  skim()
-
-codebook_city %>% 
-  count(measurement)
-
-```
-
 
