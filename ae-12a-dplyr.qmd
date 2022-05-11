@@ -1,9 +1,13 @@
 ---
-title: "Untitled"
+title: "Application Exercise 12 - Data wrangling with dplyr"
 format: html
-editor: source
+editor: visual
 editor_options: 
   chunk_output_type: console
+execute:
+  echo: true
+  message: false
+  warning: false
 ---
 
 ```{r}
@@ -16,9 +20,9 @@ library(ggplot2)
 
 # Data 
 
-Starwars
+## Explore data
 
-# Explore
+We are using a dataset that is stored in the `dplyr` R Package. The object is titled `starwars` and is available to use by loading the `dplyr` R Package.
 
 ```{r}
 
@@ -111,28 +115,17 @@ The function `select()` picks variables based on their names.
 
 ```{r}
 
-# Select columns by name
 starwars %>% 
   select(name, hair_color, skin_color, eye_color)
 
-# Select all columns between hair_color and eye_color (inclusive)
 starwars %>% 
   select(name, hair_color:eye_color)
 
-# Select all columns except those from hair_color to eye_color (inclusive)
 starwars %>% 
   select(name, !(hair_color:eye_color))
 
-# Select all columns ending with color
 starwars %>% 
   select(name, ends_with("color"))
-
-starwars <- starwars %>% 
-  select(-films, -vehicles, -starships)
-
-starwars %>% 
-  select(!(films:starships))
-
 
 ```
 
@@ -173,53 +166,54 @@ starwars %>%
 The function `mutate()` changes the values of columns and creates new columns.
 
 ```{r}
-starwars_small %>% 
-  mutate(height_m = height / 100)
-
-starwars
 
 starwars %>% 
   mutate(height_m = height / 100) %>% 
   relocate(height_m, .after = height)
 
-starwars %>%
-  mutate(
-    height_m = height / 100,
-    BMI = mass / (height_m^2)
-  ) %>%
-  relocate(height_m:BMI, .after = mass)
-
-
 ```
 
 ### dplyr::case_when()
 
+**Goal:** Create a categorical variable based on a continuous numerical variable.
+
 ```{r}
 
 starwars_height_cat <- starwars %>% 
-  mutate(height_category = case_when(
+  mutate(height_cat = case_when(
     height >= 190 ~ "tall",
     height < 190 & height >= 160 ~ "medium",
     height < 160 ~ "short"
   )) %>% 
-  relocate(height_category, .after = height) 
+  relocate(height_cat, .after = height) %>% 
+  # only write after showing plot with NAs
+  # Introduce concept of removing NAs
+  filter(!is.na(height))
 
-## most likely remove
-
-starwars_height_cat <- starwars %>% 
-  mutate(height_category = case_when(
-    height >= 190 ~ "tall",
-    height < 190 & height >= 160 ~ "medium",
-    height < 160 ~ "short"
-  )) %>% 
-  filter(!is.na(height_category)) %>% 
-  filter(!is.na(sex)) %>% 
-  relocate(height_category, .after = height) 
+# Plot data to highlight the order of bars?
 
 ggplot(data = starwars_height_cat,
-       mapping = aes(x = height_category, fill = sex)) +
-  geom_bar(position = position_dodge(preserve = "single")) +
-  facet_wrap(~gender)
+       mapping = aes(x = height_cat)) +
+  geom_bar()
+
+```
+
+#### Factors 
+
+Categorical variables that have a natural order (ordinal variables) need to be transformed into variable of type factor. They are stored as variables of type character, of which the order is always alphabetical.
+
+```{r}
+# What is with the order?
+
+height_levels <- c("short", "medium", "tall")
+
+starwars_height_cat_fct <- starwars_height_cat %>% 
+  mutate(height_cat_fct = factor(height_cat, levels = height_levels)) %>% 
+  relocate(height_cat_fct, .after = height_cat)
+
+ggplot(data = starwars_height_cat_fct,
+       mapping = aes(x = height_cat_fct)) +
+  geom_bar()
 
 ```
 
@@ -228,6 +222,8 @@ ggplot(data = starwars_height_cat,
 ### dplyr::summarise()
 
 ```{r}
+
+# How does summarise work
 
 starwars %>% 
   summarise()
@@ -247,29 +243,46 @@ starwars %>%
   summarise(height = mean(height),
             count = n())
 
+# Summarise works well with group_by (frequency tables)
 
 starwars_height_cat %>% 
-  group_by(height_category) %>% 
+  group_by(height_cat) %>% 
   summarise(
     count = n()
   )
 
-starwars_height_cat %>% 
-  count(height_category)
+## Shortcut
 
 starwars_height_cat %>% 
-  tidyr::drop_na(height_category, sex) %>% 
-  count(height_category, sex)
+  count(height_cat)
+
+## Factor order
+
+starwars_height_cat_fct %>% 
+  count(height_cat_fct)
+
+## Table grouped by two variables
+
+starwars_height_cat_fct %>% 
+  #tidyr::drop_na(height_cat_fct, sex) %>% 
+  count(height_cat_fct, sex)
 
 starwars %>% 
-  tidyr::drop_na(height, sex) %>% 
+  #filter(!is.na(sex)) %>% 
+  tidyr::drop_na(sex, height) %>% 
   group_by(sex) %>% 
   summarise(count = n(),
             mean_height = mean(height),
             sd_height = sd(height),
-            min_height = min(height),
-            median_height = median(height),
-            max_height = max(height))
+            median_height = median(height))
+
+# Working across several columns
+
+starwars %>% 
+  tidyr::drop_na(sex, height, mass, birth_year) %>% 
+  group_by(sex) %>% 
+  summarise(across(c(height, mass, birth_year), mean))
 
 ```
 
+Learn more about column-wise operations: https://dplyr.tidyverse.org/articles/colwise.html
