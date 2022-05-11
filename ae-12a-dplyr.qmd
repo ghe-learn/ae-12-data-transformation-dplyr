@@ -43,7 +43,7 @@ The `dplyr` R Paclage aims to provide a function for each basic verb of data man
 
 ### dplyr::filter()
 
-The function `filter()` chooses rows based on column values.
+The function `filter()` chooses rows based on column values. To use filtering effectively, you have to know how to select the observations that you want using the comparison operators. R provides the standard suite: >, >=, <, <=, != (not equal), and == (equal).
 
 ```{r}
 
@@ -51,18 +51,24 @@ starwars %>%
   filter(species == "Human")
 
 starwars %>% 
-  filter(species == "Human",  homeworld == "Tatooine")
+  filter(species == "Human", homeworld == "Tatooine")
 
 starwars %>% 
-  filter(species == "Human" |  homeworld == "Tatooine")
+  filter(eye_color == "yellow" |  eye_color == "red" | eye_color == "pink")
 
 starwars %>% 
-  filter(skin_color == "light" & eye_color == "brown")
+  filter(eye_color %in% c("yellow", "red", "pink"))
 
 starwars %>% 
   filter(homeworld != "Naboo") 
 
+starwars %>% 
+  filter(height < 150)
+
+starwars %>% 
+  filter(height <= 150)
 ```
+
 
 ### dplyr::arrange()
 
@@ -77,7 +83,7 @@ starwars %>%
   arrange(desc(mass))
 
 starwars %>% 
-  arrange(height, mass)
+  arrange(mass, height) 
 
 ```
 
@@ -128,6 +134,14 @@ starwars %>%
   select(name, ends_with("color"))
 
 ```
+
+Helpers select variables by matching patterns in their names:
+
+- `starts_with()`: Starts with a prefix.
+- `ends_with()`: Ends with a suffix.
+- `contains()`: Contains a literal string.
+
+Learn more: https://dplyr.tidyverse.org/reference/select.html
 
 ### dplyr::rename()
 
