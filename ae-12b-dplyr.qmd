@@ -30,7 +30,7 @@ You must write as much code independently as you can. While we realise that home
 
 # Task 0: Load R packages
 
-**Note:** I have already created code-chunks for you through this assignment. 
+**Note:** I have already created code-chunks for you through this assignment.
 
 1.  Load the `dplyr`, `readr`, and `ggplot2` R Packages.
 
@@ -239,13 +239,13 @@ ___ %>%
 
 4.  Use the pipe operator to add another line of code which uses the `relocate()` function to move the `income_cat` after the `income_id` column.
 
-5. Execute the code and inspect the output in the Console. Pay special attention to the `income_id` and `income_cat` variables. Do you see what you would expect?
+5.  Execute the code and inspect the output in the Console. Pay special attention to the `income_id` and `income_cat` variables. Do you see what you would expect?
 
-5.  Store the result as a new object in your environment with the name `composition_tidy_capita_income_cat`
+6.  Store the result as a new object in your environment with the name `composition_tidy_capita_income_cat`
 
-6.  Render and fix any errors
+7.  Render and fix any errors
 
-7.  Commit your changes
+8.  Commit your changes
 
 ```{r}
 #| eval: false
@@ -285,7 +285,7 @@ composition_tidy_capita_income_cat <- read_rds("data/intermediate_data/01-msw-ge
 
 **Fill in the blanks**
 
-1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_id`, then create a summary table containing the number of observations (call this count) for each group.
+1.  Starting with `composition_tidy_capita_income_cat`, group the data by `income_id`, then create a summary table containing the number of observations (call this count) for each group.
 
 2.  Next to the code-chunk option `#| eval:` change the value from `false` to `true`
 
@@ -300,9 +300,9 @@ composition_tidy_capita_income_cat %>%
 
 **Write the code yourself**
 
-1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) for each group.
+1.  Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) for each group.
 
-2. Observe the output in the Console and describe the difference to the output of the previous code-chunk.
+2.  Observe the output in the Console and describe the difference to the output of the previous code-chunk.
 
 ```{r}
 
@@ -311,15 +311,15 @@ composition_tidy_capita_income_cat %>%
 
 **Fill in the blanks**
 
-1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) and mean Municipal Solid Waste (MSW) generation (variable `msw_capita_kg_year`) and call this mean_msw_total.
+1.  Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) and mean Municipal Solid Waste (MSW) generation (variable `msw_capita_kg_year`) and call this mean_msw_total.
 
-2. Execute the code and observe the output in the Console.
+2.  Execute the code and observe the output in the Console.
 
-3. Why do you see `NA` for mean_msw_total at "high income"?
+3.  Why do you see `NA` for mean_msw_total at "high income"?
 
-4. Remove the `#` at the row starting with `tidyr::`. 
+4.  Remove the `#` at the row starting with `tidyr::`.
 
-5. Execute the code and observe the output in the Console. What has changed? How is that different to adding `na.rm = TRUE` as an argument to the `mean()`
+5.  Execute the code and observe the output in the Console. What has changed? How is that different to adding `na.rm = TRUE` as an argument to the `mean()`
 
 6.  Next to the code-chunk option `#| eval:` change the value from `false` to `true`
 
@@ -338,11 +338,11 @@ composition_tidy_capita_income_cat %>%
 
 **Write the code yourself**
 
-1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) and mean, median, and standard deviation of MSW generation (call these mean, median, sd).
+1.  Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) and mean, median, and standard deviation of MSW generation (call these mean, median, sd).
 
-2. Ensure that the summary table contains no `NA` by removing rows with `NA` before summarising the data.
+2.  Ensure that the summary table contains no `NA` by removing rows with `NA` before summarising the data.
 
-3. Store the summary tableas a new object in your environment with the name `table_msw_generation`
+3.  Store the summary tableas a new object in your environment with the name `table_msw_generation`
 
 ```{r}
 
@@ -352,11 +352,11 @@ composition_tidy_capita_income_cat %>%
 
 **Write the code yourself**
 
-1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count), mean MSW generation (call this mean_msw_total), mean food and organic waste composition (call this mean_organic), mean plastic waste composition (call this mean_plastic), mean paper and cardboard waste (call this mean_paper_cardboard).
+1.  Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count), mean MSW generation (call this mean_msw_total), mean food and organic waste composition (call this mean_organic), mean plastic waste composition (call this mean_plastic), mean paper and cardboard waste (call this mean_paper_cardboard).
 
-2. Ensure that the summary table contains no `NA` by removing rows with `NA` before summarising the data.
+2.  Ensure that the summary table contains no `NA` by removing rows with `NA` before summarising the data.
 
-3. Store the summary tableas a new object in your environment with the name `table_composition`
+3.  Store the summary tableas a new object in your environment with the name `table_composition`
 
 4.  Render and fix any errors
 
@@ -371,7 +371,7 @@ composition_tidy_capita_income_cat %>%
 
 Below, you will see three types of already prepared plots. There is nothing to write here for you, but the plots provide you with some additional code examples for plots.
 
-1. Execute each code-chunk and observe how the plot in the Plots pane relates to the code.
+1.  Execute each code-chunk and observe how the plot in the Plots pane relates to the code.
 
 ## Histograms
 
@@ -449,7 +449,6 @@ table_composition <- read_rds("data/intermediate_data/03-table-composition.rds")
 table_msw_generation <-  read_rds("data/intermediate_data/02-table-msw-generation.rds")
 
 ```
-
 
 ```{r}
 
