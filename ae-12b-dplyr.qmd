@@ -14,23 +14,23 @@ execute:
 
 ## Task descriptions and starter code
 
-You will notice that the descriptions of tasks are getting shorter with less detail provided. This is the case for all functions you have previously practised either in your homework or in live coding exercises in class. Tasks that are **fill in the blanks** exercises will also decrease. 
+You will notice that the descriptions of tasks are getting shorter with less detail provided. This is the case for all functions you have previously practised either in your homework or in live coding exercises in class. Tasks that are **fill in the blanks** exercises will also decrease.
 
 ## Final exam
 
-Pay close attention to how the tasks are phrased, as this closer to how they will be phrased in in the final exam. For most tasks in the final exam, exercises won't have starter code or be **fill in the blanks** exercises. 
+Pay close attention to how the tasks are phrased, as this closer to how they will be phrased in in the final exam. For most tasks in the final exam, exercises won't have starter code or be **fill in the blanks** exercises.
 
 Studying for the exam means practising writing code now. You currently have three options to do that:
 
-- Programming assignments exercises like this
-- The R4DS book and your notebook repository
-- Your research project report 
+-   Programming assignments exercises like this
+-   The R4DS book and your notebook repository
+-   Your research project report
 
 You must write as much code independently as you can. While we realise that homework assignments can be copied from other classmates, it is to your disadvantage if you do so. You will not have an opportunity to practice writing code independently, which you will need to be able to do for the final exam.
 
 # Task 0: Load R packages
 
-1. Load the `dplyr`, `readr`, and `ggplot2` R Packages.
+1.  Load the `dplyr`, `readr`, and `ggplot2` R Packages.
 
 ```{r}
 library(dplyr)
@@ -40,7 +40,7 @@ library(ggplot2)
 
 # Task 1: Data import
 
-1. Use the `read_csv()` function to import the 'country_level_data_0.csv' file by assigning it to an object name `global_waste_data`
+1.  Use the `read_csv()` function to import the 'country_level_data_0.csv' file by assigning it to an object name `global_waste_data`
 
 ```{r}
 global_waste_data <- read_csv("data/raw_data/country_level_data_0.csv")
@@ -54,17 +54,17 @@ global_waste_data <- read_csv("data/raw_data/country_level_data_0.csv")
 
 **Fill in the blanks**
 
-1. Start with the `global_waste_data` object and use the `select()` function to create a subset that only keeps the following variables: 
+1.  Start with the `global_waste_data` object and use the `select()` function to create a subset that only keeps the following variables:
 
-- `iso3c`
-- `total_msw_total_msw_generated_tons_year`
-- all variables that end with "percent"
+-   `iso3c`
+-   `total_msw_total_msw_generated_tons_year`
+-   all variables that end with "percent"
 
-2. Run the code contained in the code-chunk and fix any errors
+2.  Run the code contained in the code-chunk and fix any errors
 
-3. Next to the code-chunk option `#| eval:` change the value from `false` to `true`
+3.  Next to the code-chunk option `#| eval:` change the value from `false` to `true`
 
-4. Render and fix any errors
+4.  Render and fix any errors
 
 ```{r}
 #| eval: true
@@ -77,17 +77,17 @@ global_waste_data %>%
 
 **Write the code yourself**
 
-1. Start with the `global_waste_data` object and use the `select()` function to create a subset that only keeps the following variables: 
+1.  Start with the `global_waste_data` object and use the `select()` function to create a subset that only keeps the following variables:
 
-- `country_name`
-- `income_id`
-- `total_msw_total_msw_generated_tons_year`
-- `population_population_number_of_people`
-- all variables starting with "composition"
+-   `country_name`
+-   `income_id`
+-   `total_msw_total_msw_generated_tons_year`
+-   `population_population_number_of_people`
+-   all variables starting with "composition"
 
-2. Store the subset as a new object in your environment with the name `composition`
+2.  Store the subset as a new object in your environment with the name `composition`
 
-3. Render and fix any errors
+3.  Render and fix any errors
 
 ```{r}
 
@@ -104,17 +104,17 @@ composition <- global_waste_data %>%
 
 **Write the code yourself**
 
-1. Start with the `composition` object and use the `rename()` function to rename all columns that start with "composition". Shorten the names to keep the waste category only (e.g. rename `composition_food_organic_waste_percent` to `food_organic_waste`)
+1.  Start with the `composition` object and use the `rename()` function to rename all columns that start with "composition". Shorten the names to keep the waste category only (e.g. rename `composition_food_organic_waste_percent` to `food_organic_waste`)
 
-2. Rename `total_msw_total_msw_generated_tons_year` to `msw_tons_year`.
+2.  Rename `total_msw_total_msw_generated_tons_year` to `msw_tons_year`.
 
-3. Rename `population_population_number_of_people` to `population`
+3.  Rename `population_population_number_of_people` to `population`
 
-4. Store the subset as a new object in your environment with the name `composition_tidy`
+4.  Store the subset as a new object in your environment with the name `composition_tidy`
 
-5. Render and fix any errors
+5.  Render and fix any errors
 
-6. Commit your changes
+6.  Commit your changes
 
 ```{r}
 
@@ -141,10 +141,9 @@ composition_tidy <- composition %>%
 
 **Fill in the blanks**
 
-1. Use the `filter()` function in combination with `is.na()` to create a subset from `composition_tidy` containing observations for countries with missing data for the variable which has percentages on food and organic waste.
+1.  Use the `filter()` function in combination with `is.na()` to create a subset from `composition_tidy` containing observations for countries with missing data for the variable which has percentages on food and organic waste.
 
-2. Next to the code-chunk option `#| eval:` change the value from `false` to `true`
-
+2.  Next to the code-chunk option `#| eval:` change the value from `false` to `true`
 
 ```{r}
 #| eval: true
@@ -158,7 +157,7 @@ composition_tidy %>%
 
 **Write the code yourself**
 
-1. Use the `filter()` to create a subset from `composition_tidy` containing observations for countries classified as high-income countries (HIC).
+1.  Use the `filter()` to create a subset from `composition_tidy` containing observations for countries classified as high-income countries (HIC).
 
 ```{r}
 
@@ -171,7 +170,7 @@ composition_tidy %>%
 
 **Write the code yourself**
 
-1. Use the `filter()` to create a subset from `composition_tidy` containing observations for countries that are not classified as low-income countries (LIC). 
+1.  Use the `filter()` to create a subset from `composition_tidy` containing observations for countries that are not classified as low-income countries (LIC).
 
 ```{r}
 
@@ -184,7 +183,7 @@ composition_tidy %>%
 
 **Write the code yourself**
 
-1. Create a subset from `composition_tidy` containing observations for countries classified as high-income countries (HIC) and with food and organic waste composition greater than 50%. 
+1.  Create a subset from `composition_tidy` containing observations for countries classified as high-income countries (HIC) and with food and organic waste composition greater than 50%.
 
 ```{r}
 
@@ -198,7 +197,8 @@ composition_tidy %>%
 
 **Write the code yourself**
 
-1. Create a subset from `composition_tidy` containing observations for countries classified as high-income countries or low-income countries. IC) or high and with food and organic waste composition greater than 50%. 
+1.  Create a subset from `composition_tidy` containing observations for countries classified as high-income countries or low-income countries. IC) or high and with food and organic waste composition greater than 50%.
+
 ```{r}
 
 composition_tidy %>% 
@@ -210,11 +210,11 @@ composition_tidy %>%
 
 **Write the code yourself**
 
-1. Create a subset from `composition_tidy` containing observations for countries named Switzerland, Guam, Costa Rica, Angola, or Kiribati.  
+1.  Create a subset from `composition_tidy` containing observations for countries named Switzerland, Guam, Costa Rica, Angola, or Kiribati.
 
-2. Render and fix any errors
+2.  Render and fix any errors
 
-3. Commit your changes
+3.  Commit your changes
 
 ```{r}
 
@@ -227,19 +227,19 @@ composition_tidy %>%
 
 ```
 
-## dplyr::mutate() & dplyr::relocate() 
+## dplyr::mutate() & dplyr::relocate()
 
 **Write the code yourself**
 
-1. Use the `mutate()` function to add a new column to `composition_tidy` that is the municipal solid waste generation per capita in kg/year. Name the column `msw_capita_kg_year`. 
+1.  Use the `mutate()` function to add a new column to `composition_tidy` that is the municipal solid waste generation per capita in kg/year. Name the column `msw_capita_kg_year`.
 
-2. Use the pipe operator to add another line of code which uses the `relocate()` function to move the `msw_capita_kg_year` after the column `msw_tons_year` column.
+2.  Use the pipe operator to add another line of code which uses the `relocate()` function to move the `msw_capita_kg_year` after the column `msw_tons_year` column.
 
-3. Store the result as a new object in your environment with the name `composition_tidy_capita`
+3.  Store the result as a new object in your environment with the name `composition_tidy_capita`
 
-4. Render and fix any errors
+4.  Render and fix any errors
 
-5. Commit your changes
+5.  Commit your changes
 
 ```{r}
 
@@ -249,30 +249,30 @@ composition_tidy_capita <-  composition_tidy %>%
 
 ```
 
-## dplyr::mutate() & dplyr::case_when() 
+## dplyr::mutate() & dplyr::case_when()
 
 **Fill in the blanks**
 
-1. Use the `mutate()` function to add a new column names `income_cat` to `composition_tidy_capita` that is a variable which contains the unabbreviated categories for the `income_id` variable. 
+1.  Use the `mutate()` function to add a new column names `income_cat` to `composition_tidy_capita` that is a variable which contains the unabbreviated categories for the `income_id` variable.
 
-2. Use the `case_when()` function to convert the abbreviated values in `income_id` to:
+2.  Use the `case_when()` function to convert the abbreviated values in `income_id` to:
 
-- "high income" if `income_id` is "HIC"
-- "upper-middle income" if `income_id` is "UMC" 
-- "lower-middle income" if `income_id` is "LMC" 
-- "low income" if `income_id` is "UMC" 
+-   "high income" if `income_id` is "HIC"
+-   "upper-middle income" if `income_id` is "UMC"
+-   "lower-middle income" if `income_id` is "LMC"
+-   "low income" if `income_id` is "UMC"
 
 **Note:** Pay close attention to spaces and hyphens.
 
-3. Use the pipe operator to add another line of code which uses  the `mutate()` function to convert the `income_cat` variable from a variable of type character to a variable of type factor. For the factor levels, use the provided `levels_income_id` object.
+3.  Use the pipe operator to add another line of code which uses the `mutate()` function to convert the `income_cat` variable from a variable of type character to a variable of type factor. For the factor levels, use the provided `levels_income_id` object.
 
-4. Use the pipe operator to add another line of code which uses the `relocate()` function to move the `income_cat` after the `income_id` column.
+4.  Use the pipe operator to add another line of code which uses the `relocate()` function to move the `income_cat` after the `income_id` column.
 
-5. Store the result as a new object in your environment with the name `composition_tidy_capita_income_cat`
+5.  Store the result as a new object in your environment with the name `composition_tidy_capita_income_cat`
 
-6. Render and fix any errors
+6.  Render and fix any errors
 
-7. Commit your changes
+7.  Commit your changes
 
 ```{r}
 #| eval: true 
@@ -298,7 +298,7 @@ composition_tidy_capita_income_cat <- composition_tidy_capita %>%
 
 ```
 
-## dplyr::group_by() & dplyr::summarise() 
+## dplyr::group_by() & dplyr::summarise()
 
 ### Part 1
 
@@ -323,7 +323,6 @@ composition_tidy_capita_income_cat %>%
 
 ```
 
-
 **Fill in the blanks**
 
 ```{r}
@@ -337,7 +336,6 @@ composition_tidy_capita_income_cat %>%
   )
 
 ```
-
 
 **Write the code yourself**
 
@@ -433,18 +431,17 @@ ggplot(data = composition_tidy_capita_income_cat,
 
 ```
 
-
 # Task 5: Tables
 
-The [`gt` R Package](https://gt.rstudio.com/index.html) is an extremely powerful package to style tables. Learning the details of how it works is beyond scope of this course, but below is an example for the `table_composition` table that we created when we summarised our data. 
+The [`gt` R Package](https://gt.rstudio.com/index.html) is an extremely powerful package to style tables. Learning the details of how it works is beyond scope of this course, but below is an example for the `table_composition` table that we created when we summarised our data.
 
-1. Read the code and describe in your own words what each function does
+1.  Read the code and describe in your own words what each function does
 
-- `gt()`: 
-- `tab_header()`: 
-- `fmt_number()`:
-- `starts_with()`: 
-- `cols_labels()`:
+-   `gt()`:
+-   `tab_header()`:
+-   `fmt_number()`:
+-   `starts_with()`:
+-   `cols_labels()`:
 
 ```{r}
 
@@ -472,10 +469,10 @@ table_composition %>%
 
 Below is another table for the report that uses the `knitr` R Package to style the table. Columns first need to be renamed with the `rename()` function, and because the column names have spaces in them, we need to add the single backtick around the column/variable name. The result is also satisying and often all you need to prepare a sound looking table for your report. A great extension to `knitr` is the [`kableExtra` R Package](https://haozhu233.github.io/kableExtra/).
 
-1. Read the code and describe in your own words what each function does
+1.  Read the code and describe in your own words what each function does
 
-- `rename()``: 
-- `knitr::kable()`: 
+-   \`rename()\`\`:
+-   `knitr::kable()`:
 
 ```{r}
 
