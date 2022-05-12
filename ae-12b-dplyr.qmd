@@ -30,6 +30,8 @@ You must write as much code independently as you can. While we realise that home
 
 # Task 0: Load R packages
 
+**Note:** I have already created code-chunks for you through this assignment. 
+
 1.  Load the `dplyr`, `readr`, and `ggplot2` R Packages.
 
 ```{r}
@@ -43,7 +45,8 @@ library(ggplot2)
 1.  Use the `read_csv()` function to import the 'country_level_data_0.csv' file by assigning it to an object name `global_waste_data`
 
 ```{r}
-global_waste_data <- read_csv("data/raw_data/country_level_data_0.csv")
+
+
 ```
 
 # Task 2: Data tidying
@@ -57,7 +60,6 @@ global_waste_data <- read_csv("data/raw_data/country_level_data_0.csv")
 1.  Start with the `global_waste_data` object and use the `select()` function to create a subset that only keeps the following variables:
 
 -   `iso3c`
--   `total_msw_total_msw_generated_tons_year`
 -   all variables that end with "percent"
 
 2.  Run the code contained in the code-chunk and fix any errors
@@ -67,10 +69,10 @@ global_waste_data <- read_csv("data/raw_data/country_level_data_0.csv")
 4.  Render and fix any errors
 
 ```{r}
-#| eval: true
+#| eval: false
 
 global_waste_data %>% 
-  select(iso3c, ends_with("percent"))
+  ___(___, ends_with("___"))
 ```
 
 ### Part 2
@@ -91,12 +93,7 @@ global_waste_data %>%
 
 ```{r}
 
-composition <- global_waste_data %>% 
-  select(country_name, 
-         income_id, 
-         population_population_number_of_people, 
-         total_msw_total_msw_generated_tons_year,
-         starts_with("composition"))
+
 
 ```
 
@@ -118,18 +115,7 @@ composition <- global_waste_data %>%
 
 ```{r}
 
-composition_tidy <- composition %>% 
-  rename(food_organic_waste = composition_food_organic_waste_percent,
-         glass = composition_glass_percent,
-         metal = composition_metal_percent,
-         other = composition_other_percent,
-         paper_cardboard = composition_paper_cardboard_percent,
-         plastic = composition_plastic_percent,
-         rubber_leather = composition_rubber_leather_percent,
-         wood = composition_wood_percent,
-         yard_garden_green_waste = composition_yard_garden_green_waste_percent,
-         msw_tons_year = total_msw_total_msw_generated_tons_year,
-         population = population_population_number_of_people) 
+
 
 ```
 
@@ -146,10 +132,10 @@ composition_tidy <- composition %>%
 2.  Next to the code-chunk option `#| eval:` change the value from `false` to `true`
 
 ```{r}
-#| eval: true
+#| eval: false
 
-composition_tidy %>%  
-  filter(is.na(food_organic_waste))
+___ %>%  
+  ___(is.na(___))
 
 ```
 
@@ -161,8 +147,7 @@ composition_tidy %>%
 
 ```{r}
 
-composition_tidy %>% 
-  filter(income_id == "HIC")
+
 
 ```
 
@@ -174,8 +159,6 @@ composition_tidy %>%
 
 ```{r}
 
-composition_tidy %>% 
-  filter(income_id != "LIC") 
 
 ```
 
@@ -187,9 +170,6 @@ composition_tidy %>%
 
 ```{r}
 
-composition_tidy %>% 
-  filter(income_id == "HIC",
-         food_organic_waste > 50)
 
 ```
 
@@ -197,13 +177,11 @@ composition_tidy %>%
 
 **Write the code yourself**
 
-1.  Create a subset from `composition_tidy` containing observations for countries classified as high-income countries or low-income countries. IC) or high and with food and organic waste composition greater than 50%.
+1.  Create a subset from `composition_tidy` containing observations for countries classified as high-income countries or low-income countries and with other waste composition greater than 40%.
 
 ```{r}
 
-composition_tidy %>% 
-  filter(income_id == "HIC" | income_id == "LIC",
-         other > 40)
+
 ```
 
 ### Part 6
@@ -218,12 +196,7 @@ composition_tidy %>%
 
 ```{r}
 
-composition_tidy %>% 
-  filter(country_name %in% c("Switzerland",
-                             "Guam",
-                             "Costa Rica",
-                             "Angola",
-                             "Kiribati"))
+
 
 ```
 
@@ -243,9 +216,7 @@ composition_tidy %>%
 
 ```{r}
 
-composition_tidy_capita <-  composition_tidy %>% 
-  mutate(msw_capita_kg_year = msw_tons_year / population * 1000) %>% 
-  relocate(msw_capita_kg_year, .after = msw_tons_year)
+
 
 ```
 
@@ -253,7 +224,7 @@ composition_tidy_capita <-  composition_tidy %>%
 
 **Fill in the blanks**
 
-1.  Use the `mutate()` function to add a new column names `income_cat` to `composition_tidy_capita` that is a variable which contains the unabbreviated categories for the `income_id` variable.
+1.  Use the `mutate()` function to add a new column named `income_cat` to `composition_tidy_capita` that is a variable which contains the unabbreviated categories for the `income_id` variable.
 
 2.  Use the `case_when()` function to convert the abbreviated values in `income_id` to:
 
@@ -264,9 +235,11 @@ composition_tidy_capita <-  composition_tidy %>%
 
 **Note:** Pay close attention to spaces and hyphens.
 
-3.  Use the pipe operator to add another line of code which uses the `mutate()` function to convert the `income_cat` variable from a variable of type character to a variable of type factor. For the factor levels, use the provided `levels_income_id` object.
+3.  Use the pipe operator to add another line of code which uses the `mutate()` function to convert the `income_cat` variable from a variable of type character to a variable of type factor. For the factor levels, use the provided `levels_income_cat` object.
 
 4.  Use the pipe operator to add another line of code which uses the `relocate()` function to move the `income_cat` after the `income_id` column.
+
+5. Execute the code and inspect the output in the Console. Pay special attention to the `income_id` and `income_cat` variables. Do you see what you would expect?
 
 5.  Store the result as a new object in your environment with the name `composition_tidy_capita_income_cat`
 
@@ -275,107 +248,130 @@ composition_tidy_capita <-  composition_tidy %>%
 7.  Commit your changes
 
 ```{r}
-#| eval: true 
+#| eval: false
 
-# object that creates a vector with a defined order
+# the following object 'levels_income_cat` creates a vector with a defined order
+# to convert the 'income_cat' variable into a variable of type factor
 
-levels_income_id <- c("high income", 
-                      "upper-middle income",
-                      "lower-middle income",
-                      "low income")
+levels_income_cat <- c("high income", 
+                       "upper-middle income",
+                       "lower-middle income",
+                       "low income")
 
+# Code-chunk to full in the blanks
 
 composition_tidy_capita_income_cat <- composition_tidy_capita %>% 
-  mutate(income_cat = case_when(
-    income_id == "HIC" ~ "high income",
-    income_id == "UMC" ~ "upper-middle income",
-    income_id == "LMC" ~ "lower-middle income",
-    income_id == "LIC" ~ "low income"
+  ___(income_cat = ___ (
+    ___ == "HIC" ~ "___",
+    income_id == "___" ~ "upper-middle income",
+    ___ == "___" ~ "lower-middle income",
+    income_id == "___" ~ "___"
   )) %>% 
-  mutate(income_cat = factor(income_cat, levels = levels_income_id)) %>%
-  relocate(income_cat, .after = income_id)
-
+  mutate(income_cat = factor(income_cat, levels = ___)) %>% 
+  ___(income_cat, .after = ___) 
+  
 
 ```
 
 ## dplyr::group_by() & dplyr::summarise()
 
+Thank you for working through the previous tasks. I am convinced that you have done a great job, but because my task descriptions aren't always unambiguous, I have imported the data that I would have expected to be created and stored in `composition_tidy_capita_income_cat` at the previous code-chunk. This is to ensure that you can work through the following tasks more smoothly.
+
+```{r}
+composition_tidy_capita_income_cat <- read_rds("data/intermediate_data/01-msw-generation-and-composition-by-income.rds")
+```
+
 ### Part 1
 
 **Fill in the blanks**
 
+1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_id`, then create a summary table containing the number of observations (call this count) for each group.
+
+2.  Next to the code-chunk option `#| eval:` change the value from `false` to `true`
+
 ```{r}
-#| eval: true
+#| eval: false
 
 composition_tidy_capita_income_cat %>% 
-  group_by(income_id) %>% 
-  summarise(count = n())
+  group_by(___) %>% 
+  summarise(___ = n())
 
 ```
 
 **Write the code yourself**
 
+1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) for each group.
+
+2. Observe the output in the Console and describe the difference to the output of the previous code-chunk.
+
 ```{r}
 
-composition_tidy_capita_income_cat %>% 
-  group_by(income_cat) %>% 
-  summarise(count = n())
 
 ```
 
 **Fill in the blanks**
 
+1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) and mean Municipal Solid Waste (MSW) generation (variable `msw_capita_kg_year`) and call this mean_msw_total.
+
+2. Execute the code and observe the output in the Console.
+
+3. Why do you see `NA` for mean_msw_total at "high income"?
+
+4. Remove the `#` at the row starting with `tidyr::`. 
+
+5. Execute the code and observe the output in the Console. What has changed? How is that different to adding `na.rm = TRUE` as an argument to the `mean()`
+
+6.  Next to the code-chunk option `#| eval:` change the value from `false` to `true`
+
 ```{r}
+#| eval: false
 
 composition_tidy_capita_income_cat %>% 
-  tidyr::drop_na(msw_capita_kg_year) %>% 
-  group_by(income_cat) %>% 
-  summarise(
-    count = n(),
-    mean_msw_total = mean(msw_capita_kg_year)
+  # tidyr::drop_na(msw_capita_kg_year) %>% 
+  ___(income_cat) %>% 
+  ___(
+    count = ___,
+    mean_msw_total = ___(msw_capita_kg_year)
   )
 
 ```
 
 **Write the code yourself**
 
+1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count) and mean, median, and standard deviation of MSW generation (call these mean, median, sd).
+
+2. Ensure that the summary table contains no `NA` by removing rows with `NA` before summarising the data.
+
+3. Store the summary tableas a new object in your environment with the name `table_msw_generation`
+
 ```{r}
 
-table_msw_generation <- composition_tidy_capita_income_cat %>% 
-  tidyr::drop_na(msw_capita_kg_year) %>% 
-  group_by(income_cat) %>% 
-  summarise(
-    count = n(),
-    mean = mean(msw_capita_kg_year),
-    median = median(msw_capita_kg_year),
-    sd = sd(msw_capita_kg_year)
-  )
+
 
 ```
 
 **Write the code yourself**
 
+1. Starting with `composition_tidy_capita_income_cat`, group the data by `income_cat`, then create a summary table containing the number of observations (call this count), mean MSW generation (call this mean_msw_total), mean food and organic waste composition (call this mean_organic), mean plastic waste composition (call this mean_plastic), mean paper and cardboard waste (call this mean_paper_cardboard).
+
+2. Ensure that the summary table contains no `NA` by removing rows with `NA` before summarising the data.
+
+3. Store the summary tableas a new object in your environment with the name `table_composition`
+
+4.  Render and fix any errors
+
+5.  Commit your changes
+
 ```{r}
 
-table_composition <- composition_tidy_capita_income_cat %>% 
-  tidyr::drop_na(msw_capita_kg_year, 
-                 food_organic_waste, 
-                 plastic,
-                 paper_cardboard) %>% 
-  group_by(income_cat) %>% 
-  summarise(
-    count = n(),
-    mean_msw_total = mean(msw_capita_kg_year),
-    mean_organic = mean(food_organic_waste),
-    mean_plastic = mean(plastic),
-    mean_paper_cardboard = mean(paper_cardboard)
-  )
 
 ```
 
 # Task 4: Data visualisations
 
-Below, you will see three types of already prepared plots. There is nothing to write her for you, but the plots provide you with some additional code exmaples for different types of plots.
+Below, you will see three types of already prepared plots. There is nothing to write here for you, but the plots provide you with some additional code examples for plots.
+
+1. Execute each code-chunk and observe how the plot in the Plots pane relates to the code.
 
 ## Histograms
 
@@ -405,7 +401,7 @@ ggplot(data = composition_tidy_capita_income_cat,
   facet_wrap(~income_cat)
 ```
 
-## Scatterplots
+## Scatterplot
 
 ```{r}
 
@@ -417,7 +413,7 @@ ggplot(data = composition_tidy_capita_income_cat,
 
 ```
 
-## Boxplots
+## Boxplot
 
 ```{r}
 
@@ -435,13 +431,25 @@ ggplot(data = composition_tidy_capita_income_cat,
 
 The [`gt` R Package](https://gt.rstudio.com/index.html) is an extremely powerful package to style tables. Learning the details of how it works is beyond scope of this course, but below is an example for the `table_composition` table that we created when we summarised our data.
 
-1.  Read the code and describe in your own words what each function does
+1.  Execute the following two code-chunks
+2.  Read the code, observe the output in the Viewer pane, and describe in your own words what each function does
 
 -   `gt()`:
 -   `tab_header()`:
 -   `fmt_number()`:
 -   `starts_with()`:
 -   `cols_labels()`:
+
+```{r}
+# As previously, I have stored the data that I would have expected for the 
+# table_composition object and import it here, so that you can get the following
+# code to work as I intended.
+
+table_composition <- read_rds("data/intermediate_data/03-table-composition.rds")
+table_msw_generation <-  read_rds("data/intermediate_data/02-table-msw-generation.rds")
+
+```
+
 
 ```{r}
 
@@ -464,14 +472,14 @@ table_composition %>%
     mean_plastic = "plastic (%)",
     mean_paper_cardboard = "paper & cardboard (%)"
   ) 
-  
+
 ```
 
 Below is another table for the report that uses the `knitr` R Package to style the table. Columns first need to be renamed with the `rename()` function, and because the column names have spaces in them, we need to add the single backtick around the column/variable name. The result is also satisying and often all you need to prepare a sound looking table for your report. A great extension to `knitr` is the [`kableExtra` R Package](https://haozhu233.github.io/kableExtra/).
 
 1.  Read the code and describe in your own words what each function does
 
--   \`rename()\`\`:
+-   `rename()`:
 -   `knitr::kable()`:
 
 ```{r}
@@ -485,4 +493,7 @@ table_msw_generation %>%
 
 # Task 6: Complete assignment
 
-Open an issue on the repo for this exercise to let us know you completed it. Use the @larnsce mention.
+1.  Render and fix any errors
+2.  Commit your changes (make sure your Git pane is empty)
+3.  Push to GitHub
+4.  Open an issue on the repo for this exercise to let us know you completed it. Use the @larnsce mention.
