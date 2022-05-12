@@ -37,3 +37,8 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# solutions files
+
+*-solutions.R
+*-solutions.qmd
