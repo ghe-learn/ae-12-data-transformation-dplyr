@@ -177,7 +177,7 @@ ___ %>%
 
 **Write the code yourself**
 
-1.  Create a subset from `composition_tidy` containing observations for countries classified as high-income countries or low-income countries and with other waste composition greater than 40%.
+1.  Create a subset from `composition_tidy` containing observations for countries classified as high-income countries or low-income countries, and countries with other waste composition greater than 40%.
 
 ```{r}
 
@@ -231,7 +231,7 @@ ___ %>%
 -   "high income" if `income_id` is "HIC"
 -   "upper-middle income" if `income_id` is "UMC"
 -   "lower-middle income" if `income_id` is "LMC"
--   "low income" if `income_id` is "UMC"
+-   "low income" if `income_id` is "LIC"
 
 **Note:** Pay close attention to spaces and hyphens.
 
